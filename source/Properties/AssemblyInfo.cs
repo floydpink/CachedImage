@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CachedImage")]
 [assembly: AssemblyDescription("A WPF control that wraps the Image control with some filesystem caching")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("floydpink")]
 [assembly: AssemblyProduct("CachedImage")]
 [assembly: AssemblyCopyright("MIT © Haridas Pachuveetil  2014")]
 [assembly: AssemblyTrademark("")]

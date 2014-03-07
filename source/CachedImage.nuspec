@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://raw.github.com/floydpink/CachedImage/master/LICENSE</licenseUrl>
+    <projectUrl>http://floydpink.github.io/CachedImage/</projectUrl>
+    <iconUrl>http://floydpink.github.io/CachedImage/images/logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>First version</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>WPF Cache Image Control</tags>
+  </metadata>
+</package>
