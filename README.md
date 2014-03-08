@@ -44,9 +44,17 @@ The `Image` control present in this `CachedImage` library, wraps the native `Ima
 6. Please note that the control does not consider `Cache-Control` or `Expires` headers. Unless the cache folder (or specific files in it) gets deleted, the control will not fetch the file again from the server. The application could let the end-user empty the cache folder as done in the [flickr downloadr](https://github.com/flickr-downloadr/flickr-downloadr) application that uses this control.
 
 ### Thanks
-All of the code in this library is from the answers on a Stack Overflow question titled - [How do I cache images on the client for a WPF application?](http://stackoverflow.com/questions/1878060/how-do-i-cache-images-on-the-client-for-a-wpf-application). 
+All of the code in this library is from the answers on a Stack Overflow question:
 
-Thanks to [the wonderful code there](http://stackoverflow.com/questions/1878060/how-do-i-cache-images-on-the-client-for-a-wpf-application/5175424#5175424) by [Jeroen van Langen](http://stackoverflow.com/users/641271/jeroen-van-langen) and [the modification to make it bindable](http://stackoverflow.com/questions/1878060/how-do-i-cache-images-on-the-client-for-a-wpf-application/12638859#12638859) by [Ivan Leonenko](http://stackoverflow.com/users/367287/ivan-leonenko).
+[How do I cache images on the client for a WPF application?](http://stackoverflow.com/questions/1878060/how-do-i-cache-images-on-the-client-for-a-wpf-application). 
+
+Thanks to:
+
+1. [Simon Hartcher](http://stackoverflow.com/users/459159/simon-hartcher), who answered his own question [with the solution](http://stackoverflow.com/questions/1878060/how-do-i-cache-images-on-the-client-for-a-wpf-application/1893173#1893173)
+
+2. [Jeroen van Langen](http://stackoverflow.com/users/641271/jeroen-van-langen) for [the wonderful refacoring](http://stackoverflow.com/questions/1878060/how-do-i-cache-images-on-the-client-for-a-wpf-application/5175424#5175424) of Simon's solution
+
+3. [Ivan Leonenko](http://stackoverflow.com/users/367287/ivan-leonenko) for [the tweaks to make the control bindable](http://stackoverflow.com/questions/1878060/how-do-i-cache-images-on-the-client-for-a-wpf-application/12638859#12638859).
 
 ### License
 
