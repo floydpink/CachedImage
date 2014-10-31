@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Policy;
+using System.Web;
 
 namespace CachedImage
 {
@@ -30,8 +32,9 @@ namespace CachedImage
 
             // Cast the string into a Uri so we can access the image name without regex
             var uri = new Uri(url);
-            string localFile = string.Format("{0}\\{1}", AppCacheDirectory, uri.Segments[uri.Segments.Length - 1]);
-
+            var segment = uri.Segments[uri.Segments.Length - 1];
+            var urlDecode = HttpUtility.UrlDecode(segment);
+            string localFile = string.Format("{0}\\{1}", AppCacheDirectory, urlDecode);
             if (!File.Exists(localFile))
             {
                 HttpHelper.GetAndSaveToFile(url, localFile);
