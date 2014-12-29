@@ -1,47 +1,117 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Policy;
-using System.Web;
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CachedImage
 {
-    public class FileCache
+    public static class FileCache
     {
+        public enum CacheMode
+        {
+            WinINet,
+            Dedicated
+        }
+
+        // Record whether a file is being written.
+        private static readonly Dictionary<string, bool> IsWritingFile = new Dictionary<string, bool>();
+
         static FileCache()
         {
             // default cache directory - can be changed if needed from App.xaml
             AppCacheDirectory = string.Format("{0}\\{1}\\Cache\\",
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Process.GetCurrentProcess().ProcessName);
+            AppCacheMode = CacheMode.WinINet;
         }
 
         /// <summary>
-        /// Gets or sets the path to the folder that stores the filesystem-based cache
+        ///     Gets or sets the path to the folder that stores the cache file. Only works when AppCacheMode is
+        ///     CacheMode.Dedicated.
         /// </summary>
         public static string AppCacheDirectory { get; set; }
 
-        public static string FromUrl(string url)
+        /// <summary>
+        ///     Gets or sets the cache mode. WinINet is recommended, it's provided by .Net Framework and uses the Temporary Files
+        ///     of IE and the same cache policy of IE.
+        /// </summary>
+        public static CacheMode AppCacheMode { get; set; }
+
+        public static async Task<MemoryStream> HitAsync(string url)
         {
-            // Check to see if the cache directory has been created
             if (!Directory.Exists(AppCacheDirectory))
             {
-                // create it
                 Directory.CreateDirectory(AppCacheDirectory);
             }
-
-            // Cast the string into a Uri so we can access the image name without regex
             var uri = new Uri(url);
-            var segment = uri.Segments[uri.Segments.Length - 1];
-            var urlDecode = HttpUtility.UrlDecode(segment);
-            string localFile = string.Format("{0}\\{1}", AppCacheDirectory, urlDecode);
-            if (!File.Exists(localFile))
+            var fileNameBuilder = new StringBuilder();
+            using (var sha1 = new SHA1Managed())
             {
-                HttpHelper.GetAndSaveToFile(url, localFile);
+                var canonicalUrl = uri.ToString();
+                var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(canonicalUrl));
+                fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower());
+                if (Path.HasExtension(canonicalUrl))
+                    fileNameBuilder.Append(Path.GetExtension(canonicalUrl));
             }
 
-            // The full path of the image on the local computer
-            return localFile;
+            var fileName = fileNameBuilder.ToString();
+            var localFile = string.Format("{0}\\{1}", AppCacheDirectory, fileName);
+            var memoryStream = new MemoryStream();
+
+            FileStream fileStream = null;
+            if (!IsWritingFile.ContainsKey(fileName) && File.Exists(localFile))
+            {
+                using (fileStream = new FileStream(localFile, FileMode.Open, FileAccess.Read))
+                {
+                    await fileStream.CopyToAsync(memoryStream);
+                }
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                return memoryStream;
+            }
+
+            var request = WebRequest.Create(uri);
+            request.Timeout = 30;
+            try
+            {
+                var response = await request.GetResponseAsync();
+                var responseStream = response.GetResponseStream();
+                if (responseStream == null)
+                    return null;
+                if (!IsWritingFile.ContainsKey(fileName))
+                {
+                    IsWritingFile[fileName] = true;
+                    fileStream = new FileStream(localFile, FileMode.Create, FileAccess.Write);
+                }
+
+                using (responseStream)
+                {
+                    var bytebuffer = new byte[100];
+                    int bytesRead;
+                    do
+                    {
+                        bytesRead = await responseStream.ReadAsync(bytebuffer, 0, 100);
+                        if (fileStream != null)
+                            await fileStream.WriteAsync(bytebuffer, 0, bytesRead);
+                        await memoryStream.WriteAsync(bytebuffer, 0, bytesRead);
+                    } while (bytesRead > 0);
+                    if (fileStream != null)
+                    {
+                        await fileStream.FlushAsync();
+                        fileStream.Dispose();
+                        IsWritingFile.Remove(fileName);
+                    }
+                }
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                return memoryStream;
+            }
+            catch (WebException)
+            {
+                return null;
+            }
         }
     }
 }

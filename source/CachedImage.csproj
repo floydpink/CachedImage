@@ -46,10 +46,8 @@
   <ItemGroup>
     <Compile Include="FileCache.cs" />
     <Compile Include="Image.cs" />
-    <Compile Include="WebResponseExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
