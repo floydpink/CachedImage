@@ -8,12 +8,14 @@ A WPF control that wraps the Image control to enable file-system based caching.
 ### Background
 If we use the native WPF `Image` control for displaying images over the HTTP protocol (by setting the `Source` to an http url), the image will be downloaded from the server every time the control is loaded. 
 
-The `Image` control present in this `CachedImage` library, wraps the native `Image` control to add a local file-system based caching capability. This control creates a local copy of the image on the first time an image is downloaded; to a configurable cache folder (defaults to `<current-user/appdata/roaming>\AppName\Cache`). All the subsequent loads of the control (or the page, window or app that contains the control), will display the image from the local file-system and will not download it from the server.
+In its `Dedicated` mode (see `Cache Mode` below), the `Image` control present in this `CachedImage` library, wraps the native `Image` control to add a local file-system based caching capability. This control creates a local copy of the image on the first time an image is downloaded; to a configurable cache folder (defaults to `<current-user/appdata/roaming>\AppName\Cache`). All the subsequent loads of the control (or the page, window or app that contains the control), will display the image from the local file-system and will not download it from the server.
+
+In its `WinINet` mode, the `Image` control uses the Temporary Internet Files directory that IE uses for the cache.
 
 ### Cache Mode
-We provide two cache mode: WinINet mode and dedicated mode.
-* WinINet: It takes advantage of BitmapImage.UriCachePolicy property and uses the Temporary Internet Files directory of IE to store cached images. The image control will have the same cache policy of IE.
-* Dedicated: Another url-based cache implementation. You can set your own cache directory. The cache will never expire unless you delete the cache folder manually.
+We provide two cache mode: `WinINet` mode and `Dedicated` mode.
+* `WinINet`: This is the default mode and it takes advantage of `BitmapImage.UriCachePolicy` property and uses the Temporary Internet Files directory of IE to store cached images. The image control will have the same cache policy of IE.
+* `Dedicated`: Another url-based cache implementation. You can set your own cache directory. The cache will never expire unless you delete the cache folder manually.
 
 ### Usage
 1. Install the NuGet package named `CachedImage` on the WPF project 
