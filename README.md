@@ -68,6 +68,10 @@ Thanks to:
 
 3. [Ivan Leonenko](http://stackoverflow.com/users/367287/ivan-leonenko) for [the tweaks to make the control bindable](http://stackoverflow.com/questions/1878060/how-do-i-cache-images-on-the-client-for-a-wpf-application/12638859#12638859).
 
+4. [Aybe](https://github.com/aybe) for the fix for non-ascii characters in the path ([#1](https://github.com/floydpink/CachedImage/pull/1))
+
+5. [Saiqi Jia](https://github.com/stackia) for the enhancement of adding another IE based caching ([#5](https://github.com/floydpink/CachedImage/pull/5))
+
 ### License
 
 [MIT License](https://raw.github.com/floydpink/CachedImage/master/LICENSE)
