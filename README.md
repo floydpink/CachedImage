@@ -70,7 +70,7 @@ Thanks to:
 
 4. [Aybe](https://github.com/aybe) for the fix for non-ascii characters in the path ([#1](https://github.com/floydpink/CachedImage/pull/1))
 
-5. [Saiqi Jia](https://github.com/stackia) for the enhancement of adding another IE based caching ([#5](https://github.com/floydpink/CachedImage/pull/5))
+5. [Stackie Jia](https://github.com/stackia) for the enhancement of adding another IE based caching ([#5](https://github.com/floydpink/CachedImage/pull/5))
 
 ### License
 
