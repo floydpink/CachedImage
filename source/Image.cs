@@ -14,14 +14,20 @@ namespace CachedImage
     {
         static Image()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof (Image),
-                new FrameworkPropertyMetadata(typeof (Image)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(Image),
+                new FrameworkPropertyMetadata(typeof(Image)));
         }
 
         public string ImageUrl
         {
-            get { return (string) GetValue(ImageUrlProperty); }
+            get { return (string)GetValue(ImageUrlProperty); }
             set { SetValue(ImageUrlProperty, value); }
+        }
+
+        public BitmapCreateOptions CreateOptions
+        {
+            get { return ((BitmapCreateOptions)(base.GetValue(Image.CreateOptionsProperty))); }
+            set { base.SetValue(Image.CreateOptionsProperty, value); }
         }
 
         private static async void ImageUrlPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
@@ -31,13 +37,14 @@ namespace CachedImage
             if (string.IsNullOrEmpty(url))
                 return;
 
-            var cachedImage = (Image) obj;
+            var cachedImage = (Image)obj;
             var bitmapImage = new BitmapImage();
 
             switch (FileCache.AppCacheMode)
             {
                 case FileCache.CacheMode.WinINet:
                     bitmapImage.BeginInit();
+                    bitmapImage.CreateOptions = cachedImage.CreateOptions;
                     bitmapImage.UriSource = new Uri(url);
                     // Enable IE-like cache policy.
                     bitmapImage.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.Default);
@@ -53,6 +60,7 @@ namespace CachedImage
                             return;
 
                         bitmapImage.BeginInit();
+                        bitmapImage.CreateOptions = cachedImage.CreateOptions;
                         bitmapImage.StreamSource = memoryStream;
                         bitmapImage.EndInit();
                         cachedImage.Source = bitmapImage;
@@ -69,6 +77,9 @@ namespace CachedImage
         }
 
         public static readonly DependencyProperty ImageUrlProperty = DependencyProperty.Register("ImageUrl",
-            typeof (string), typeof (Image), new PropertyMetadata("", ImageUrlPropertyChanged));
+            typeof(string), typeof(Image), new PropertyMetadata("", ImageUrlPropertyChanged));
+
+        public static readonly DependencyProperty CreateOptionsProperty = DependencyProperty.Register("CreateOptions",
+            typeof(BitmapCreateOptions), typeof(Image));
     }
 }
