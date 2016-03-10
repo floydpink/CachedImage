@@ -55,6 +55,11 @@ We provide two cache mode: `WinINet` mode and `Dedicated` mode.
   ```
 6. Please note that the dedicated cache mode does not consider `Cache-Control` or `Expires` headers. Unless the cache folder (or specific files in it) gets deleted, the control will not fetch the file again from the server. The application could let the end-user empty the cache folder as done in the [flickr downloadr](https://github.com/flickr-downloadr/flickr-downloadr) application that uses this control.
 
+7. If you will be loading arbitrary images from a source outside your control, it may be advisable to set `CreateOptions` to `IgnoreColorProfile`. As described by Scott Hanselman [here on his blog](http://www.hanselman.com/blog/DealingWithImagesWithBadMetadataCorruptedColorProfilesInWPF.aspx), without this setting, images that have a corrupt Color Profile will throw an `ArgumentException` (at System.Windows.Media.ColorContext.GetColorContextsHelper)
+  ```xml
+      <cachedImage:Image CreateOptions="IgnoreColorProfile">  </cachedImage:Image>
+  ```
+
 ### Thanks
 All of the code in this library is from the answers on a Stack Overflow question:
 
