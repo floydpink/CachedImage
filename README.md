@@ -1,4 +1,5 @@
 [CachedImage](http://floydpink.github.io/CachedImage/) [![NuGet version](https://badge.fury.io/nu/CachedImage.png)](http://badge.fury.io/nu/CachedImage) [![Build status](https://ci.appveyor.com/api/projects/status/6tb8p301yio5fmh4)](https://ci.appveyor.com/project/floydpink/cachedimage)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ffloydpink%2FCachedImage.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ffloydpink%2FCachedImage?ref=badge_shield)
 ===========
 
 <a href="http://floydpink.github.io/CachedImage/"><img src="http://floydpink.github.io/CachedImage/images/logo.png" alt="logo" width="300px" /></a>
@@ -80,3 +81,6 @@ Thanks to:
 ### License
 
 [MIT License](https://raw.github.com/floydpink/CachedImage/master/LICENSE)
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ffloydpink%2FCachedImage.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ffloydpink%2FCachedImage?ref=badge_large)
