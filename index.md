@@ -18,7 +18,7 @@ We provide two cache mode: `WinINet` mode and `Dedicated` mode.
 * `Dedicated`: Another url-based cache implementation. You can set your own cache directory. The cache will never expire unless you delete the cache folder manually.
 
 ### Usage
-1. Install the NuGet package named `CachedImage` on the WPF project 
+1. Install the NuGet package named `CachedImage` on the WPF project  
 2. Add a namespace reference to the `CachedImage` assembly on the Window/Usercontrol `xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"` as in the example `Window` below:
   ```xml
   <Window x:Class="MyWindow1"
@@ -29,31 +29,27 @@ We provide two cache mode: `WinINet` mode and `Dedicated` mode.
           xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage">
   
   </Window>
-  ```
+  ```  
 3. Use the control and set or bind the `ImageUrl` attribute:
   ```xml
-  
-      <cachedImage:Image ImageUrl="{Binding LargeImageUrl}">  </cachedImage:Image>
-  ```
+    <cachedImage:Image ImageUrl="{Binding LargeImageUrl}">  </cachedImage:Image>
+  ```  
 4. As it is only a wrapper, all the XAML elements that could be used with the `Image` control are valid here as well:
   ```xml
-  
     <cachedImage:Image ImageUrl="{Binding LargeImageUrl}">
         <Image.ToolTip>This image gets cached to the file-system the first time it is downloaded</Image.ToolTip>
     </cachedImage:Image>
-  ```
+  ```  
 5. To change cache mode, set FileCache.AppCacheMode like this:
   ```csharp
-  
     CachedImage.FileCache.AppCacheMode = CachedImage.FileCache.CacheMode.Dedicated; // The default mode is WinINet
-  ```
+  ```  
 6. To change the cache folder location of the dedicated cache mode, set the static string property named `AppCacheDirectory` of the `FileCache` class like this:
   ```csharp
-  
     CachedImage.FileCache.AppCacheDirectory = string.format("{0}\\MyCustomCacheFolder\\",
                                   Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-  ```
-6. Please note that the dedicated cache mode does not consider `Cache-Control` or `Expires` headers. Unless the cache folder (or specific files in it) gets deleted, the control will not fetch the file again from the server. The application could let the end-user empty the cache folder as done in the [flickr downloadr](https://github.com/flickr-downloadr/flickr-downloadr) application that uses this control.
+  ```  
+7. Please note that the dedicated cache mode does not consider `Cache-Control` or `Expires` headers. Unless the cache folder (or specific files in it) gets deleted, the control will not fetch the file again from the server. The application could let the end-user empty the cache folder as done in the [flickr downloadr](https://github.com/flickr-downloadr/flickr-downloadr) application that uses this control.
 
 ### Thanks
 All of the code in this library is from the answers on a Stack Overflow question:
