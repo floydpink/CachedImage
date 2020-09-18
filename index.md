@@ -21,14 +21,13 @@ We provide two cache mode: `WinINet` mode and `Dedicated` mode.
 1. Install the NuGet package named `CachedImage` on the WPF project  
 2. Add a namespace reference to the `CachedImage` assembly on the Window/Usercontrol `xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"` as in the example `Window` below:  
   ```xml
-  <Window x:Class="MyWindow1"
+    <Window x:Class="MyWindow1"
           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
           xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage">
-  
-  </Window>
+    </Window>
   ```  
 3. Use the control and set or bind the `ImageUrl` attribute:
   ```xml
