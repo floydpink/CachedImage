@@ -1,0 +1,8 @@
+title: Cached Image
+description: A WPF control that wraps the Image control to enable file-system based caching.
+google_analytics: UA-36383654-5
+show_downloads: true
+theme: jekyll-theme-minimal
+
+gems:
+  - jekyll-mentions
