@@ -19,7 +19,7 @@ We provide two cache mode: `WinINet` mode and `Dedicated` mode.
 
 ### Usage
 1. Install the NuGet package named `CachedImage` on the WPF project  
-2. Add a namespace reference to the `CachedImage` assembly on the Window/Usercontrol `xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"` as in the example `Window` below:
+2. Add a namespace reference to the `CachedImage` assembly on the Window/Usercontrol `xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"` as in the example `Window` below:  
   ```xml
   <Window x:Class="MyWindow1"
           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
