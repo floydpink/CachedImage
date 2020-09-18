@@ -72,6 +72,8 @@ Thanks to:
 
 5. [Saiqi Jia](https://github.com/stackia) for the enhancement of adding another IE based caching ([#5](https://github.com/floydpink/CachedImage/pull/5))
 
+6. [Ben Morningstar](https://github.com/Borningstar) for fixing the low request timeout issue ([#15](https://github.com/floydpink/CachedImage/pull/15))
+
 ### License
 
 [MIT License](https://raw.github.com/floydpink/CachedImage/master/LICENSE)
