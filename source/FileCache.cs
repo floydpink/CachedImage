@@ -20,6 +20,9 @@ namespace CachedImage
         // Record whether a file is being written.
         private static readonly Dictionary<string, bool> IsWritingFile = new Dictionary<string, bool>();
 
+        // Timeout for performing the file download request.
+        private static readonly int RequestTimeout = TimeSpan.FromSeconds(5).Milliseconds;
+
         static FileCache()
         {
             // default cache directory - can be changed if needed from App.xaml
@@ -74,7 +77,7 @@ namespace CachedImage
             }
 
             var request = WebRequest.Create(uri);
-            request.Timeout = 30;
+            request.Timeout = RequestTimeout;
             try
             {
                 var response = await request.GetResponseAsync();
