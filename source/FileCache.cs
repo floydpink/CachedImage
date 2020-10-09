@@ -44,7 +44,7 @@ namespace CachedImage
         /// </summary>
         public static CacheMode AppCacheMode { get; set; }
 
-        public static async Task<MemoryStream> HitAsync(string url)
+         public static async Task<MemoryStream> HitAsync(string url)
         {
             if (!Directory.Exists(AppCacheDirectory))
             {
@@ -62,7 +62,7 @@ namespace CachedImage
             }
 
             var fileName = fileNameBuilder.ToString();
-            var localFile = string.Format("{0}\\{1}", AppCacheDirectory, fileName);
+            var localFile = string.Format("{0}{1}", AppCacheDirectory, fileName);
             var memoryStream = new MemoryStream();
 
             FileStream fileStream = null;
@@ -75,43 +75,40 @@ namespace CachedImage
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return memoryStream;
             }
+            var client = new HttpClient();
 
-            var request = WebRequest.Create(uri);
-            request.Timeout = RequestTimeout;
+            HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+
             try
             {
-                var response = await request.GetResponseAsync();
-                var responseStream = response.GetResponseStream();
-                if (responseStream == null)
+                HttpResponseMessage responseMessage = await client.SendAsync(httpRequestMessage);
+                if (responseMessage.IsSuccessStatusCode == false)
+                    return null;
+
+                byte[] bytes = await responseMessage.Content.ReadAsByteArrayAsync();
+                if (bytes == null || bytes.Length == 0)
                     return null;
                 if (!IsWritingFile.ContainsKey(fileName))
                 {
                     IsWritingFile[fileName] = true;
                     fileStream = new FileStream(localFile, FileMode.Create, FileAccess.Write);
                 }
-
-                using (responseStream)
+                await fileStream.WriteAsync(bytes, 0, bytes.Length);
+                await memoryStream.WriteAsync(bytes, 0, bytes.Length);
+                if (fileStream != null)
                 {
-                    var bytebuffer = new byte[100];
-                    int bytesRead;
-                    do
-                    {
-                        bytesRead = await responseStream.ReadAsync(bytebuffer, 0, 100);
-                        if (fileStream != null)
-                            await fileStream.WriteAsync(bytebuffer, 0, bytesRead);
-                        await memoryStream.WriteAsync(bytebuffer, 0, bytesRead);
-                    } while (bytesRead > 0);
-                    if (fileStream != null)
-                    {
-                        await fileStream.FlushAsync();
-                        fileStream.Dispose();
-                        IsWritingFile.Remove(fileName);
-                    }
+                    await fileStream.FlushAsync();
+                    fileStream.Dispose();
+                    IsWritingFile.Remove(fileName);
                 }
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return memoryStream;
             }
             catch (WebException)
+            {
+                return null;
+            }
+            catch(Exception ex)
             {
                 return null;
             }
