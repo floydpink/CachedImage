@@ -44,7 +44,7 @@ namespace CachedImage
         /// </summary>
         public static CacheMode AppCacheMode { get; set; }
 
-         public static async Task<MemoryStream> HitAsync(string url)
+        public static async Task<MemoryStream> HitAsync(string url)
         {
             if (!Directory.Exists(AppCacheDirectory))
             {
