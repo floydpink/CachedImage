@@ -6,7 +6,7 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <licenseUrl>https://raw.github.com/floydpink/CachedImage/master/LICENSE</licenseUrl>
+    <licenseUrl>https://raw.github.com/floydpink/CachedImage/main/LICENSE</licenseUrl>
     <projectUrl>http://floydpink.github.io/CachedImage/</projectUrl>
     <iconUrl>http://floydpink.github.io/CachedImage/images/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
