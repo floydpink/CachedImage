@@ -58,7 +58,7 @@ namespace CachedImage
                 var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(canonicalUrl));
                 fileNameBuilder.Append(BitConverter.ToString(hash).Replace("-", "").ToLower());
                 if (Path.HasExtension(canonicalUrl))
-                    fileNameBuilder.Append(Path.GetExtension(canonicalUrl));
+                    fileNameBuilder.Append(Path.GetExtension(canonicalUrl).Split('?')[0]);
             }
 
             var fileName = fileNameBuilder.ToString();
