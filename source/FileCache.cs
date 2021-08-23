@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,10 @@ namespace CachedImage
         private static readonly Dictionary<string, bool> IsWritingFile = new Dictionary<string, bool>();
 
         // Timeout for performing the file download request.
-        private static readonly int RequestTimeout = TimeSpan.FromSeconds(5).Milliseconds;
+        private static readonly TimeSpan RequestTimeout = TimeSpan.FromSeconds(5);
+
+        // HttpClient is intended to be instantiated once per application, rather than per-use.
+        private static readonly Lazy<HttpClient> LazyHttpClient = new Lazy<HttpClient>(() => new HttpClient());
 
         static FileCache()
         {
@@ -76,14 +80,19 @@ namespace CachedImage
                 return memoryStream;
             }
 
-            var request = WebRequest.Create(uri);
-            request.Timeout = RequestTimeout;
+            var client = LazyHttpClient.Value;
+            client.Timeout = RequestTimeout;
             try
             {
-                var response = await request.GetResponseAsync();
-                var responseStream = response.GetResponseStream();
-                if (responseStream == null)
+                var response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
+
+                if (response.IsSuccessStatusCode is false)
+                {
                     return null;
+                }
+
+                var responseStream = await response.Content.ReadAsStreamAsync();
+
                 if (!IsWritingFile.ContainsKey(fileName))
                 {
                     IsWritingFile[fileName] = true;
